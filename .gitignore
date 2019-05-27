@@ -1,0 +1,14 @@
+.idea
+.log
+*/.idea
+*.iml
+*.iws
+*.ipr
+**/log/
+**/target
+*/mvnw/
+*.mvn
+
+# Maven
+**/log/
+**/target/
