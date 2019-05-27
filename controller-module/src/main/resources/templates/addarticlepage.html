@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add user</title>
+</head>
+<body>
+<form action="#" th:action="@{/public/article/sale/new/save}" th:object="${article}" method="post">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="date">Data</label>
+            <input id="date" type="datetime-local" th:field="*{date}">
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}"> </input>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <input type="text" class="form-control" id="content" th:field="*{content}"> </input>
+        </div>
+        <button type="submit">Create</button>
+    </div>
+</form>
+<a class="page-link" href="#" th:href="@{/public/article/sale}" th:text="Cancel"> </a>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

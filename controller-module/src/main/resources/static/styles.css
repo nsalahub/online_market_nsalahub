@@ -1,0 +1,55 @@
+table {
+    width: 100%;
+}
+.col1 {
+    width: 100px;
+}
+form {
+    margin: 20px auto;
+    width: 500px;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+input {
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 2px 3px #ccc;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: green;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#a {
+    background-color: transparent;
+    border: none;
+    color: green;
+    outline: none;
+    cursor: pointer;
+    font: inherit;
+    padding: 10px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.pagination a {
+    font-size: 1.2em;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    background: #a3de85;
+    color: #FAF4F4;
+    float: left;
+    text-decoration: none;
+    font-style: inherit;
+    font-family: Calibri;
+}

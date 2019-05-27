@@ -1,0 +1,276 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_ROLE_TABLE_CHANGE_SET">
+        <createTable tableName="Role">
+            <column autoIncrement="true" name="r_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="r_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_USER_TABLE_CHANGE_SET">
+        <createTable tableName="User">
+            <column autoIncrement="true" name="u_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="u_name" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="u_surname" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="u_patronymic" type="VARCHAR(60)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="u_email" type="VARCHAR(128)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="u_password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="u_deleted" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="u_role_id" type="BIGINT">
+                <constraints nullable="false"
+                             foreignKeyName="u_role_id" references="Role(r_id)"/>
+            </column>
+            <column name="u_position" type="VARCHAR(10)" defaultValue="user">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_ARTICLE_TABLE_CHANGE_SET" author="nikolay.salahub@gmail.com">
+        <createTable tableName="Articles">
+            <column autoIncrement="true" name="a_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="a_date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="a_title" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="a_user_id" type="BIGINT">
+                <constraints foreignKeyName="a_user_id" references="User(u_id)" nullable="false"/>
+            </column>
+            <column name="a_content" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="a_deleted" type="Boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_COMMENTS_TABLE_CHANGE_SET" author="nikolay.salahub@gmail.com">
+        <createTable tableName="Comments">
+            <column autoIncrement="true" name="c_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="c_user_id" type="BIGINT">
+                <constraints foreignKeyName="c_user_id" references="User(u_id)" nullable="false"/>
+            </column>
+            <column name="c_article_id" type="BIGINT">
+                <constraints foreignKeyName="c_article_id" references="Articles(a_id)" nullable="false"/>
+            </column>
+            <column name="c_date_created" type="Timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_content" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="c_deleted" type="Boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_REVIEWS_TABLE_CHANGE_SET">
+        <createTable tableName="Reviews">
+            <column autoIncrement="true" name="r_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="r_review" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="r_showing" type="Boolean" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="r_deleted" type="Boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="r_date_create" type="Timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="r_user_id" type="BIGINT">
+                <constraints foreignKeyName="r_user_id" references="User(u_id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_PROFILE_TABLE_CHANGE_SET" author="nikolay.salahub@gmail.com">
+        <createTable tableName="Profile">
+            <column autoIncrement="true" name="p_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="p_user_id" type="BIGINT">
+                <constraints foreignKeyName="p_user_id" references="User(u_id)" nullable="false"/>
+            </column>
+            <column name="p_telephone" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="p_address" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="p_deleted" type="Boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_ITEM_TABLE_CHANGE_SET" author="nikolay.salahub@gmail.com">
+        <createTable tableName="Item">
+            <column autoIncrement="true" name="i_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="i_name" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="i_unique_number" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="i_price" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="i_deleted" type="Boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="i_description" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_ADMINISTRATOR_ROLE">
+        <insert tableName="Role">
+            <column name="r_id" value="1"/>
+            <column name="r_name" value="ADMINISTRATOR"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_CUSTOMER_ROLE">
+        <insert tableName="Role">
+            <column name="r_id" value="2"/>
+            <column name="r_name" value="CUSTOMER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_SECURE_REST_API_ROLE">
+        <insert tableName="Role">
+            <column name="r_id" value="3"/>
+            <column name="r_name" value="SECURE_REST_API"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_SALE_ROLE">
+        <insert tableName="Role">
+            <column name="r_id" value="4"/>
+            <column name="r_name" value="SALE"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_ADMINISTRATOR_USER">
+        <insert tableName="User">
+            <column name="u_email" value="root@gmail.com"/>
+            <column name="u_surname" value="surname"/>
+            <column name="u_name" value="name"/>
+            <column name="u_password" value="$2a$10$tEHlqzb1MOg1J5UxFNReDeGj0spqhd5UoAS8s9fHlveKKoGJWNwq."/>
+            <column name="u_role_id" valueComputed="1"/>
+            <column name="u_position" value="root"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_CUSTOMER_USER">
+        <insert tableName="User">
+            <column name="u_email" value="customer@gmail.com"/>
+            <column name="u_surname" value="surname"/>
+            <column name="u_name" value="name"/>
+            <column name="u_password" value="$2a$10$UvZf9O7kuY8qpXRAKuvLee8AKfFOSMDmwxZGZOHRttH4MFVatXID2"/>
+            <column name="u_role_id" valueComputed="2"/>
+            <column name="u_position" value="user"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_REST_API_USER">
+        <insert tableName="User">
+            <column name="u_email" value="rest@gmail.com"/>
+            <column name="u_surname" value="surname"/>
+            <column name="u_name" value="name"/>
+            <column name="u_password" value="$2a$10$vKt3boWCX9Ndm1SJnmwVce0gl4PksniErJIvMVdnX89bDrqBWXfSm"/>
+            <column name="u_role_id" valueComputed="3"/>
+            <column name="u_position" value="user"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_SALE_USER_USER">
+        <insert tableName="User">
+            <column name="u_email" value="sale@gmail.com"/>
+            <column name="u_surname" value="surname"/>
+            <column name="u_name" value="name"/>
+            <column name="u_password" value="$2a$10$vKt3boWCX9Ndm1SJnmwVce0gl4PksniErJIvMVdnX89bDrqBWXfSm"/>
+            <column name="u_role_id" valueComputed="4"/>
+            <column name="u_position" value="user"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_PROFILE_ADMINISTRATOR_USER">
+        <insert tableName="Profile">
+            <column name="p_id" value="1"/>
+            <column name="p_user_id" value="1"/>
+            <column name="p_telephone" value="telephone"/>
+            <column name="p_address" value="address"/>
+            <column name="p_deleted" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_PROFILE_CUSTOMER_USER">
+        <insert tableName="Profile">
+            <column name="p_id" value="2"/>
+            <column name="p_user_id" value="2"/>
+            <column name="p_telephone" value="telephone2"/>
+            <column name="p_address" value="address2"/>
+            <column name="p_deleted" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_PROFILE_REST_API_USER">
+        <insert tableName="Profile">
+            <column name="p_id" value="3"/>
+            <column name="p_user_id" value="3"/>
+            <column name="p_telephone" value="telephone3"/>
+            <column name="p_address" value="address3"/>
+            <column name="p_deleted" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="nikolay.salahub@gmail.com" id="CREATE_PROFILE_SALE_USER">
+        <insert tableName="Profile">
+            <column name="p_id" value="4"/>
+            <column name="p_user_id" value="4"/>
+            <column name="p_telephone" value="telephone4"/>
+            <column name="p_address" value="address4"/>
+            <column name="p_deleted" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+
+
