@@ -53,7 +53,7 @@
             You can't deleted ADMINISTRATOR
         </td>
         <td th:unless="${user.position == 'root'}">
-            <input form="delete-user" type="checkbox" th:value="${user.email}" name="email">
+            <input form="delete-user" type="checkbox" th:value="${user.id}" name="id">
         </td>
     </tr>
     <form id="delete-user" action="#" th:action="@{user/delete}" method="post">
@@ -62,7 +62,7 @@
     </tbody>
 
     <div>
-        <form action="#" th:action="@{user/new}" method="post">
+        <form action="#" th:action="@{user/new}" method="get">
             <button type="submit">ADD USER</button>
         </form>
     </div>

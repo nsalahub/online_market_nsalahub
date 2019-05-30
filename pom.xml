@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <liquibase.version>3.4.1</liquibase.version>
+        <spring.boot.email.version>2.0.1.RELEASE</spring.boot.email.version>
     </properties>
 
     <dependencies>
@@ -36,6 +37,12 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring.boot.email.version}</version>
         </dependency>
 
         <dependency>

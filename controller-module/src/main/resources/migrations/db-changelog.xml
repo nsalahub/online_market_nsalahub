@@ -81,7 +81,7 @@
             <column name="c_article_id" type="BIGINT">
                 <constraints foreignKeyName="c_article_id" references="Articles(a_id)" nullable="false"/>
             </column>
-            <column name="c_date_created" type="Timestamp">
+            <column name="c_date_created" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
             <column name="c_content" type="varchar(200)">
@@ -107,7 +107,7 @@
             <column name="r_deleted" type="Boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
-            <column name="r_date_create" type="Timestamp">
+            <column name="r_date_create" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
             <column name="r_user_id" type="BIGINT">
@@ -154,6 +154,32 @@
                 <constraints nullable="false"/>
             </column>
             <column name="i_description" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="CREATE_ORDER_TABLE_CHANGE_SET" author="nikolay.salahub@gmail.com">
+        <createTable tableName="Orders">
+            <column autoIncrement="true" name="o_id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="o_number_order" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="o_item_name" type="varchar(60)">
+                <constraints nullable="false" foreignKeyName="o_item_name" references="Item(i_name)"/>
+            </column>
+            <column name="o_quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="o_total_price" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="o_user_id" type="BIGINT">
+                <constraints foreignKeyName="o_user_id" references="User(u_id)" nullable="false"/>
+            </column>
+            <column name="o_deleted" type="Boolean" defaultValue="false">
                 <constraints nullable="false"/>
             </column>
         </createTable>

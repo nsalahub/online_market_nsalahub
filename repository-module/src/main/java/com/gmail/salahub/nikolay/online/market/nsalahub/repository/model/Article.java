@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,6 +49,7 @@ public class Article {
     private boolean isDeleted;
     @OrderBy(value = "c_date_created desc")
     @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
             mappedBy = "article")
     List<Comment> comments = new ArrayList<>();
 

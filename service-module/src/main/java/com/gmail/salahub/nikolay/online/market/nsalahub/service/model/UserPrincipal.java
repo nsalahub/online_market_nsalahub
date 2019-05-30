@@ -20,6 +20,10 @@ public class UserPrincipal implements UserDetails {
         grantedAuthorities.add(new SimpleGrantedAuthority(userDTO.getRoleDTO().getName()));
     }
 
+    public Long getIdFromUserPrincipal(){
+        return userDTO.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities;

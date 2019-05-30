@@ -5,12 +5,12 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.UserRepositor
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Profile;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Role;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.EmailService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.RandomService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.constant.ServiceConstant;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ProfileConverter;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UpdateUserConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UpdateUserDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
@@ -30,26 +30,26 @@ public class UserServiceImpl implements UserService {
 
     private final UserConverter userConverter;
     private final UserRepository userRepository;
-    private final UpdateUserConverter updateUserConverter;
     private final RandomService randomService;
     private final PasswordEncoder passwordEncoder;
     private final PageService pageService;
     private final RoleRepository roleRepository;
     private final UserConverter userProfileConverter;
     private final ProfileConverter profileUpdateConverter;
+    private final EmailService emailService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            UserConverter userConverter,
-                           UpdateUserConverter updateUserConverter,
                            RandomService randomService,
                            PasswordEncoder passwordEncoder,
                            PageService pageService,
                            RoleRepository roleRepository,
                            @Qualifier("userProfileConverter") UserConverter userProfileConverter,
-                           @Qualifier("profileUpdateConverter") ProfileConverter profileUpdateConverter) {
+                           @Qualifier("profileUpdateConverter") ProfileConverter profileUpdateConverter,
+                           @Qualifier("emailService") EmailService emailService) {
+        this.emailService = emailService;
         this.profileUpdateConverter = profileUpdateConverter;
-        this.updateUserConverter = updateUserConverter;
         this.roleRepository = roleRepository;
         this.userConverter = userConverter;
         this.userRepository = userRepository;
@@ -70,7 +70,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public List<UserDTO> getByPageNumber(int pageNumber) {
         List<UserDTO> userDTOS;
-        List<User> users = userRepository.findAll((pageNumber - 1) * LIMIT_USER_VALUE, LIMIT_USER_VALUE);
+        List<User> users = userRepository.findAll(pageService
+                .getLimitValue(LIMIT_USER_VALUE, pageNumber), LIMIT_USER_VALUE);
         userDTOS = users.stream()
                 .map(userConverter::toDTO)
                 .collect(Collectors.toList());
@@ -114,22 +115,24 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updatePassword(UserDTO userDTO) {
-        userDTO.setPassword(passwordEncoder.encode(
-                randomService.getRandomString(ServiceConstant.BEGINNING_OF_LINE_FOR_RANDOM_PASSWORD,
-                        ServiceConstant.END_OF_LINE_FOR_RANDOM_PASSWORD)));
+        String password = randomService.getRandomString(ServiceConstant.BEGINNING_OF_LINE_FOR_RANDOM_PASSWORD,
+                ServiceConstant.END_OF_LINE_FOR_RANDOM_PASSWORD);
+        userDTO.setPassword(passwordEncoder.encode(password));
         userRepository.updatePassword(userDTO.getPassword(), userDTO.getEmail());
+        emailService.sendMassageWithChangedPassword(userDTO.getEmail(), "Change email",
+                "Hello, your new password " + password);
     }
 
     @Override
     @Transactional
-    public void deleteByListEmails(List<String> emails) {
-        userRepository.deleteByEmails(emails);
+    public void deleteByListIds(List<Long> ids) {
+        userRepository.deleteByIds(ids);
     }
 
     @Override
     @Transactional
     public void updateProfile(UserDTO userDTO) {
-        User user = userRepository.findByEmail(userDTO.getEmail());
+        User user = userRepository.findById(userDTO.getId());
         Profile profile = user.getProfile();
         profile.setAddress(userDTO.getProfileDTO().getAddress());
         profile.setTelephone(userDTO.getProfileDTO().getTelephone());
@@ -137,6 +140,13 @@ public class UserServiceImpl implements UserService {
         user.setSurname(userDTO.getSurname());
         user.setName(userDTO.getName());
         userRepository.merge(user);
+    }
+
+    @Override
+    @Transactional
+    public UserDTO getById(Long id) {
+        User user = userRepository.findById(id);
+        return userConverter.toDTO(user);
     }
 
     private Profile getDefaultProfile() {

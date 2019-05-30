@@ -40,7 +40,7 @@ public class ReviewController {
     }
 
     @PostMapping("review/showing")
-    public String updateItem(
+    public String updateHiddenStatus(
             ReviewsDTO reviewsDTO
     ) {
         reviewService.changeHiddenStatus(reviewsDTO.getReviewList());
@@ -48,7 +48,7 @@ public class ReviewController {
     }
 
     @PostMapping("/review/delete")
-    public String changePassword(
+    public String deleteReview(
             ReviewDTO reviewDTO
     ) {
         reviewService.deleteReview(reviewDTO.getId());

@@ -1,10 +1,12 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.UserPrincipal;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +37,8 @@ public class ProfileController {
 
     @PostMapping("/profile/password/change")
     public String changePasswordThisUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = userService.getByUsername(authentication.getName());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO userDTO = userService.getById(((UserPrincipal)userDetails).getIdFromUserPrincipal());
         userService.updatePassword(userDTO);
         return REDIRECT_PROFILE_URL;
     }
@@ -44,8 +46,8 @@ public class ProfileController {
     @PostMapping("/profile/update")
     public String updateProfilePage(
             UserDTO userDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        userDTO.setEmail(authentication.getName());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userDTO.setId(((UserPrincipal)userDetails).getIdFromUserPrincipal());
         userService.updateProfile(userDTO);
         return REDIRECT_PROFILE_URL;
     }

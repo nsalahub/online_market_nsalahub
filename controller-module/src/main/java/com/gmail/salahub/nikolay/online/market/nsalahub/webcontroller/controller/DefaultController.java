@@ -10,4 +10,9 @@ public class DefaultController {
     public String showLoginPage() {
         return "login";
     }
+
+    @GetMapping("/403")
+    public String showErrorPage(){
+        return "403";
+    }
 }

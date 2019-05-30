@@ -11,7 +11,7 @@ import java.util.List;
 public class ReviewRepositoryImpl extends GenericRepositoryImpl<Long, Review> implements ReviewRepository {
 
     @Override
-    public void updateButchShowingById(List<String> showingString, List<String> stringsIds) {
+    public void updateButchStatusById(List<String> showingString, List<String> stringsIds) {
         String partOfQuery = getStringForUpdateBuchquery(showingString, stringsIds);
         String hqlQuery = "UPDATE Review R SET R.isShowing = CASE R.id"
                 + partOfQuery +

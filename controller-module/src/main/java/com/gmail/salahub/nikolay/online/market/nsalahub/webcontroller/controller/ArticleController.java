@@ -46,8 +46,7 @@ public class ArticleController {
         model.addAttribute("numberPage", valueOfPages);
         List<ArticleDTO> articles = articleService.getByPageNumber(page);
         model.addAttribute("articles", articles);
-        ArticleDTO deleteArticleDTO = new ArticleDTO();
-        model.addAttribute("deleteArticle", deleteArticleDTO);
+        logger.info("showing articles for sale");
         return "articlesale";
     }
 
@@ -59,27 +58,32 @@ public class ArticleController {
         model.addAttribute("numberPage", valueOfPages);
         List<ArticleDTO> articles = articleService.getByPageNumber(page);
         model.addAttribute("articles", articles);
+        logger.info("showing articles for customer");
         return "articlecustomer";
     }
 
     @PostMapping("/article/sale/delete")
     public String deleteThisArticle(ArticleDTO articleDTO) {
         articleService.delete(articleDTO.getId());
+        logger.info("start deleted some article" + articleDTO.getId());
         return REDIRECT_ARTICLE_SALE_URL;
     }
 
-    @PostMapping("/article/sale/new")
+    @GetMapping("/article/sale/new")
     public String showAddArticlePage(Model model) {
         ArticleCreateDTO articleCreateDTO = new ArticleCreateDTO();
         model.addAttribute("article", articleCreateDTO);
+        logger.info("start showing article add page for sale");
         return "addarticlepage";
     }
 
-    @PostMapping("/article/sale/new/save")
+    @PostMapping("/article/sale/new")
     public String saveNewArticle(ArticleCreateDTO articleCreateDTO) throws ParseException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         articleCreateDTO.setUsername(authentication.getName());
         articleService.create(articleCreateDTO);
+        logger.info("start saving " + articleCreateDTO.getContent() + " content"
+                + articleCreateDTO.getUsername());
         return REDIRECT_ARTICLE_SALE_URL;
     }
 
@@ -91,12 +95,15 @@ public class ArticleController {
         model.addAttribute("article", articleDTO);
         ArticleDTO articleDeleteDTO = new ArticleDTO();
         model.addAttribute("articleDeleteDTO", articleDeleteDTO);
+        logger.info("start showing more information about article with id " + article);
         return "showarticlesale";
     }
 
     @PostMapping("/article/sale/update")
     public String updateArticle(ArticleDTO articleDTO) {
         articleService.update(articleDTO);
+        logger.info("start updating article" + articleDTO.getContent() + "for user"
+                + articleDTO.getUserDTO().getName());
         return REDIRECT_UPDATE_ARTICLE_SALE_URL + articleDTO.getId();
     }
 
@@ -106,13 +113,14 @@ public class ArticleController {
             Model model) {
         ArticleDTO articleDTO = articleService.getArticleById(article);
         model.addAttribute("article", articleDTO);
-
+        logger.info("start showing more information about article with id " + articleDTO.getId());
         return "showarticlecustomer";
     }
 
     @PostMapping("/article/sale/comment/delete")
     public String deleteCommentThisArticle(CommentDTO commentDTO) {
         commentService.delete(commentDTO);
+        logger.info("start deleted comment with content" + commentDTO.getContent());
         return REDIRECT_UPDATE_ARTICLE_SALE_URL + commentDTO.getArticleDTO().getId();
     }
 }

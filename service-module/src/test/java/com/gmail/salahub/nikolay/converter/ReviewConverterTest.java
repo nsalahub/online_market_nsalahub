@@ -7,7 +7,7 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserCo
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.impl.ReviewConverterImpl;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.testmodel.TestModel;
+import com.gmail.salahub.nikolay.testmodel.TestModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

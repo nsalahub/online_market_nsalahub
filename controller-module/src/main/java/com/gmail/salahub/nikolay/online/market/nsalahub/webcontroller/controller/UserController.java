@@ -41,14 +41,16 @@ public class UserController {
         model.addAttribute("numberPage", valueOfPages);
         UpdateUserDTO updateUserDTO = new UpdateUserDTO();
         model.addAttribute("updateUserDTO", updateUserDTO);
+        logger.info("start showing page with users");
         return "user";
     }
 
     @PostMapping("user/delete")
     public String showUserWithDeleted(
-            @RequestParam(value = "email") String[] emails) {
-        userService.deleteByListEmails(Arrays.stream(emails)
+            @RequestParam(value = "id") String[] ids) {
+        userService.deleteByListIds(Arrays.stream(ids).map(id -> Long.valueOf(id))
                 .collect(Collectors.toList()));
+        logger.info("start deleted butch users");
         return REDIRECT_USER_URL;
     }
 
@@ -68,14 +70,15 @@ public class UserController {
         return REDIRECT_USER_URL;
     }
 
-    @PostMapping("/user/new")
+    @GetMapping("/user/new")
     public String showAddUserPage(Model model) {
         UserDTO userDTO = new UserDTO();
         model.addAttribute("user", userDTO);
+        logger.info("start showing add user page");
         return "adduserpage";
     }
 
-    @PostMapping("user/new/save")
+    @PostMapping("/user/new")
     public String getUserFromAddUserPage(UserDTO userDTO) {
         userService.create(userDTO);
         logger.info(userDTO.getName(), userDTO.getEmail() + " success add");

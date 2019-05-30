@@ -18,7 +18,9 @@ public interface UserService {
 
     void updatePassword(UserDTO userDTO);
 
-    void deleteByListEmails(List<String> emails);
+    void deleteByListIds(List<Long> ids);
 
     void updateProfile(UserDTO userDTO);
+
+    UserDTO getById(Long id);
 }

@@ -40,7 +40,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public List<ReviewDTO> getReviewsForShowing(Integer pageNumber) {
         List<ReviewDTO> reviewDTOS;
-        List<Review> reviews = reviewRepository.findAll((pageNumber - 1) * LIMIT_REVIEW_VALUE, LIMIT_REVIEW_VALUE);
+        List<Review> reviews = reviewRepository.findAll(pageService
+                .getLimitValue(LIMIT_REVIEW_VALUE, pageNumber), LIMIT_REVIEW_VALUE);
         reviewDTOS = reviews.stream()
                 .map(reviewConverter::toDTO)
                 .collect(Collectors.toList());
@@ -70,6 +71,6 @@ public class ReviewServiceImpl implements ReviewService {
         List<String> idStrings = new ArrayList<>();
         reviewDTOS.stream().forEach(reviewDTO ->
                 idStrings.add(String.valueOf(reviewDTO.getId())));
-        reviewRepository.updateButchShowingById(showingStrings, idStrings);
+        reviewRepository.updateButchStatusById(showingStrings, idStrings);
     }
 }

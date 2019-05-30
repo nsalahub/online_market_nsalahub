@@ -5,7 +5,7 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.review.
 import java.util.List;
 
 public interface ReviewRepository extends GenericRepository<Long, Review> {
-    void updateButchShowingById(List<String> showingString, List<String> stringsIds);
+    void updateButchStatusById(List<String> showingString, List<String> stringsIds);
 
     void deleteById(Long id);
 }

@@ -3,7 +3,7 @@ package com.gmail.salahub.nikolay.online.market.nsalahub.service.model;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class CommentDTO {
     private Long id;

@@ -8,7 +8,7 @@ public interface UserRepository extends GenericRepository<Long, User> {
 
     void updatePassword(String password, String email);
 
-    void deleteByEmails(List<String> mailsOfUsers);
+    void deleteByIds(List<Long> ids);
 
     User findByEmail(String email);
 }

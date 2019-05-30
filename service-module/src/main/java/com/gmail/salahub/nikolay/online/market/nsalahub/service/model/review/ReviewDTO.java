@@ -2,7 +2,7 @@ package com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class ReviewDTO {
     private Long id;

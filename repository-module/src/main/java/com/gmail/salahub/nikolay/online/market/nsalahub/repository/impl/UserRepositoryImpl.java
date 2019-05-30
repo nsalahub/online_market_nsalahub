@@ -20,10 +20,10 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
     }
 
     @Override
-    public void deleteByEmails(List<String> emails) {
-        String hqlQuery = "UPDATE User U SET U.isDeleted = true WHERE U.email IN(:emails)";
+    public void deleteByIds(List<Long> ids) {
+        String hqlQuery = "UPDATE User U SET U.isDeleted = true WHERE U.id IN(:ids)";
         Query query = entityManager.createQuery(hqlQuery);
-        query.setParameter("emails", emails);
+        query.setParameter("ids", ids);
         query.executeUpdate();
     }
 

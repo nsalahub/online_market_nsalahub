@@ -4,10 +4,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+import static com.gmail.salahub.nikolay.online.market.nsalahub.service.constant.ServiceConstant.DATE_TIME_FORMAT_STRING_VALUE;
+
 public class ArticleCreateDTO {
 
     private Long id;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = DATE_TIME_FORMAT_STRING_VALUE)
     private Date date;
     private String title;
     private String username;

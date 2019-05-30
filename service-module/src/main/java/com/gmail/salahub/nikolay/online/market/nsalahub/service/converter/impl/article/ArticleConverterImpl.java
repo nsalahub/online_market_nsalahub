@@ -1,6 +1,7 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.impl.article;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Article;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.StringOperationService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ArticleConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleDTO;
@@ -11,10 +12,13 @@ import org.springframework.stereotype.Component;
 public class ArticleConverterImpl implements ArticleConverter {
 
     private final UserConverter userConverter;
+    private final StringOperationService stringOperationService;
 
     @Autowired
-    private ArticleConverterImpl(UserConverter userConverter) {
+    private ArticleConverterImpl(UserConverter userConverter,
+                                 StringOperationService stringOperationService) {
         this.userConverter = userConverter;
+        this.stringOperationService = stringOperationService;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class ArticleConverterImpl implements ArticleConverter {
         articleDTO.setId(article.getId());
         articleDTO.setTitle(article.getTitle());
         articleDTO.setDate(article.getDate());
-        articleDTO.setContent(article.getContent());
+        articleDTO.setContent(stringOperationService.getSummary(article.getContent()));
         articleDTO.setUserDTO(userConverter.toDTO(article.getUser()));
         return articleDTO;
     }
