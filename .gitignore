@@ -5,6 +5,7 @@
 *.iws
 *.ipr
 **/log/
+*/logs/
 **/target
 */mvnw/
 *.mvn

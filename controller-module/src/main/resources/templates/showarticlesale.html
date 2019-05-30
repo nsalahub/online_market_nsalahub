@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>article</title>
+</head>
+<body>
+<div th:replace="fragments/headercustomer :: header"></div>
+
+<a th:href="@{/public/article/customer}"> Go Back </a>
+
+<form action="#" th:action="@{/public/article/sale/update}" th:object="${article}" method="post">
+    <input hidden value="#" th:attr="value=${article.id}" th:name="id">
+    <h1 th:text="${article.title}"></h1>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" th:field="*{title}"> </input>
+    </div>
+    <span th:text="${article.content}"></span>
+    <div class="form-group">
+        <label for="content">Content</label>
+        <input type="text" class="form-control" id="content" th:field="*{content}"> </input>
+    </div>
+    <button type="submit">Update</button>
+</form>
+
+<span th:text="${article.userDTO.name}"></span>
+<span th:text="${article.userDTO.surname}"></span>
+<span th:text="${article.date}"></span>
+<div>
+    <th:block th:each="comment,stat : ${article.commentDTOS}">
+        <form action="#" th:action="@{/public/article/sale/comment/delete}" th:object="${comment}" method="post">
+            <input hidden value="#" th:attr="value=${comment.id}" th:name="id">
+            <input hidden value="#" th:attr="value=${comment.articleDTO.id}" th:name="articleDTO.id">
+            <span th:text="${comment.userDTO.name}"></span>
+            <span th:text="${comment.content}"></span>
+            <button type="submit">Delete This Comment</button>
+        </form>
+    </th:block>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

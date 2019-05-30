@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>users</title>
+</head>
+<body>
+<div th:replace="fragments/headeradministrator :: header"></div>
+
+<table>
+    <thead class="thead-dark">
+    <tr class="text-center">
+        <th scope="col">ID</th>
+        <th scope="col">EMAIL</th>
+        <th scope="col">PASSWORD</th>
+        <th scope="col">STATUS</th>
+        <th scope="col">CHANGE STATUS</th>
+        <th scope="col">DELETE</th>
+    </tr>
+    </thead>
+    <tbody class="text-center">
+    <tr th:each="user,stat : ${users}">
+        <td th:text="${stat.count}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:if="${user.position == 'root'}">
+            You can't changed status ADMINISTRATOR
+        </td>
+        <td th:unless="${user.position == 'root'}">
+            <form action="#" class="index" th:action="@{user/change/password}" th:object="${user}" method="post">
+                <input hidden value="#"
+                       th:attr="value=${user.email}" th:name="email">
+                <button type="submit">CHANGE PASSWORD</button>
+            </form>
+        </td>
+        <td th:text="${user.roleDTO.name}"></td>
+        <td th:if="${user.position == 'root'} ">
+            You can't changed status ADMINISTRATOR
+        </td>
+        <td th:unless="${user.position == 'root'}">
+            <form action="#" th:action="@{user/role/update}" th:object="${updateUserDTO}" method="post">
+                <input hidden value="#"
+                       th:attr="value=${user.email}" th:name="email">
+                <select th:name="role" name="role">
+                    <option th:value="CUSTOMER" th:text="CUSTOMER"></option>
+                    <option th:value="ADMINISTRATOR" th:text="ADMINISTRATOR"></option>
+                    <option th:value="SECURE_REST_API" th:text="SECURE_REST_API"></option>
+                    <option th:value="SALE" th:text="SALE"></option>
+                </select>
+                <button type="submit">UPDATE STATUS</button>
+            </form>
+        </td>
+        <td th:if="${user.position == 'root'}">
+            You can't deleted ADMINISTRATOR
+        </td>
+        <td th:unless="${user.position == 'root'}">
+            <input form="delete-user" type="checkbox" th:value="${user.id}" name="id">
+        </td>
+    </tr>
+    <form id="delete-user" action="#" th:action="@{user/delete}" method="post">
+        <button type="submit">DELETE</button>
+    </form>
+    </tbody>
+
+    <div>
+        <form action="#" th:action="@{user/new}" method="get">
+            <button type="submit">ADD USER</button>
+        </form>
+    </div>
+</table>
+<div class="pagination">
+    <ul class="pagination">
+        <li class="page-item" th:each="currentPage : ${#numbers.sequence( 1,numberPage)}">
+            <a class="page-link" href="#" th:href="@{/private/user(currentPage=${currentPage})}" th:text="${currentPage}"> </a>
+        </li>
+    </ul>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
