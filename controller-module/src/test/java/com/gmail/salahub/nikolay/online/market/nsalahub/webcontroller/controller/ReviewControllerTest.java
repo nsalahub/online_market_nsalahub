@@ -1,6 +1,7 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.ReviewService;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller.testmodel.TestModel;
@@ -36,13 +37,16 @@ public class ReviewControllerTest {
     @Mock
     private ReviewService reviewService;
 
+    @Mock
+    private UserService userService;
+
     private ReviewDTO reviewDTO = TestModel.getTestReviewDTO();
     private List<ReviewDTO> reviewDTOS = asList(reviewDTO, reviewDTO);
     private Integer numberOfPage = 0;
 
     @Before
     public void init() {
-        ReviewController reviewController = new ReviewController(reviewService);
+        ReviewController reviewController = new ReviewController(reviewService,userService);
         mockMvc = MockMvcBuilders.standaloneSetup(reviewController).build();
     }
 

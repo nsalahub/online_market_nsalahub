@@ -13,4 +13,6 @@ public interface ReviewService {
     void deleteReview(Long id);
 
     void changeHiddenStatus(List<ReviewDTO> reviewDTOS);
+
+    void create(ReviewDTO reviewDTO);
 }

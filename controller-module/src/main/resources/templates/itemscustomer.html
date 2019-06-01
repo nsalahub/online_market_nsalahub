@@ -14,8 +14,7 @@
         <th scope="col">UNIQUE NUMBER</th>
         <th scope="col">PRICE</th>
         <th scope="col">MORE</th>
-        <th scope="col">DELETE THIS ITEM</th>
-    </tr>
+        <th scope="col">BUY</th>
     </thead>
     <tbody class="text-center">
     <tr th:each="item,stat : ${items}">
@@ -24,13 +23,13 @@
         <td th:text="${item.uniqueNumber}"></td>
         <td th:text="${item.price}"></td>
         <td>
-            <a href="#" th:href="@{/public/items/more(item=${item.id})}">More...</a>
+            <a href="#" th:href="@{/public/items/customer/more(item=${item.id})}">More...</a>
         </td>
         <td>
-            <form action="#" th:action="@{/public/items/delete}"  method="post">
-                <input hidden value="#"
-                       th:attr="value=${item.id}" th:name="id">
-                <button type="submit">Delete</button>
+            <form action="#" th:action="@{/public/items/customer/buy}" th:object="${purchaseDTO}" method="post">
+                <input hidden value="#" th:attr="value=${item.id}" th:name="id">
+                <input type="text" id="name" th:field="${purchaseDTO.quantity}"/>
+                <button type="submit">Buy it</button>
             </form>
         </td>
     </tr>
@@ -39,12 +38,11 @@
 <div class="pagination">
     <ul class="pagination">
         <li class="page-item" th:each="currentPage : ${#numbers.sequence( 1,numberPage)}">
-            <a class="page-link" href="#" th:href="@{/public/items(currentPage=${currentPage})}"
+            <a class="page-link" href="#" th:href="@{/public/items/customer(currentPage=${currentPage})}"
                th:text="${currentPage}"> </a>
         </li>
     </ul>
 </div>
-
 
 <div th:replace="fragments/footer :: footer"></div>
 </body>

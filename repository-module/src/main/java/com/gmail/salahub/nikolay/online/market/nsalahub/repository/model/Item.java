@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "i_id")
     private Long id;
+    @OrderBy(value = "i_name desc")
     @Column(name = "i_name")
     private String name;
     @Column(name = "i_unique_number")

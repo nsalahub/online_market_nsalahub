@@ -4,7 +4,7 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.RoleRepositor
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.UserRepository;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Profile;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Role;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.EmailService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.RandomService;

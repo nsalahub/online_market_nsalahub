@@ -1,7 +1,5 @@
-package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user;
+package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model;
 
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Profile;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Role;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 

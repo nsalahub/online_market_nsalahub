@@ -1,6 +1,7 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ProfileDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.UserPrincipal;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class ProfileController {
     @GetMapping("/profile")
     public String showProfilePage(
             Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDTO userDTO = userService.getByUsername(authentication.getName());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO userDTO = userService.getById(((UserPrincipal)userDetails).getIdFromUserPrincipal());
         model.addAttribute("user", userDTO);
         return "profile";
     }

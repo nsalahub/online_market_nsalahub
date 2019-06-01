@@ -1,9 +1,14 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.ReviewService;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ReviewsDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.UserPrincipal;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,20 +18,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.constant.ControllerConstant.REDIRECT_ARTICLES_CUSTOMER_USER_URL;
 import static com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.constant.ControllerConstant.REDIRECT_REVIEW_URL;
 
 @Controller
-@RequestMapping("/private")
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService,
+                            UserService userService) {
         this.reviewService = reviewService;
+        this.userService = userService;
     }
 
-    @GetMapping("/review")
+    @GetMapping("/private/review")
     public String showCommentsPage(
             @RequestParam(defaultValue = "1", value = "currentPage") Integer page,
             Model model) {
@@ -39,7 +47,7 @@ public class ReviewController {
         return "review";
     }
 
-    @PostMapping("review/showing")
+    @PostMapping("/private/review/showing")
     public String updateHiddenStatus(
             ReviewsDTO reviewsDTO
     ) {
@@ -47,11 +55,27 @@ public class ReviewController {
         return REDIRECT_REVIEW_URL;
     }
 
-    @PostMapping("/review/delete")
+    @PostMapping("/private/review/delete")
     public String deleteReview(
             ReviewDTO reviewDTO
     ) {
         reviewService.deleteReview(reviewDTO.getId());
         return REDIRECT_REVIEW_URL;
+    }
+
+    @GetMapping("/public/review/new")
+    public String showCreatingReviewPage(Model model) {
+        ReviewDTO reviewDTO = new ReviewDTO();
+        model.addAttribute("review", reviewDTO);
+        return "createreview";
+    }
+
+    @PostMapping("/public/review/new")
+    public String createNewReview(ReviewDTO reviewDTO) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO userDTO = userService.getById(((UserPrincipal)userDetails).getIdFromUserPrincipal());
+        reviewDTO.setUserDTO(userDTO);
+        reviewService.create(reviewDTO);
+        return REDIRECT_ARTICLES_CUSTOMER_USER_URL;
     }
 }

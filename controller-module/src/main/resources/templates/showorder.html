@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>item</title>
+</head>
+<body>
+<div th:replace="fragments/headersale :: header"></div>
+
+<a th:href="@{/public/orders}"> Go Back </a>
+<table>
+    <thead>
+    <tr class="text-center">
+        <th scope="col">№ ORDER</th>
+        <th scope="col">STATUS</th>
+        <th scope="col">UPDATE STATUS</th>
+        <th scope="col">NAME OF USER</th>
+        <th scope="col">TELEPHONE</th>
+        <th scope="col">QUANTITY</th>
+        <th scope="col">PRICE</th>
+    </tr>
+    </thead>
+    <tbody class="text-center">
+    <tr>
+        <td th:text="${order.numberOrder}"></td>
+        <td th:text="${order.status}"></td>
+        <td>
+            <form action="#" th:action="@{/public/order/update}" th:object="${updateOrderDTO}" method="post">
+                <input hidden value="#"
+                       th:attr="value=${order.id}" th:name="id">
+                <select th:name="status" name="status">
+                    <option th:value="NEW" th:text="NEW"></option>
+                    <option th:value="IN_PROGRESS" th:text="IN_PROGRESS"></option>
+                    <option th:value="DELIVERED" th:text="DELIVERED"></option>
+                    <option th:value="REJECTED" th:text="REJECTED"></option>
+                </select>
+                <button type="submit">UPDATE STATUS</button>
+            </form>
+        </td>
+        <td th:text="${order.userDTO.name}"></td>
+        <td th:text="${order.userDTO.profileDTO.telephone}"></td>
+        <td th:text="${order.quantity}"></td>
+        <td th:text="${order.totalPrice}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

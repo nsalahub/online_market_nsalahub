@@ -1,7 +1,7 @@
 package com.gmail.salahub.nikolay;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.UserRepository;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.RandomService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;

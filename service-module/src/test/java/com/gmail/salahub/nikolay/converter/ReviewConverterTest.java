@@ -1,7 +1,7 @@
 package com.gmail.salahub.nikolay.converter;
 
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.review.Review;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Review;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ReviewConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.impl.ReviewConverterImpl;

@@ -1,7 +1,7 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository.impl;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.UserRepository;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;

@@ -102,8 +102,7 @@ public class ArticleController {
     @PostMapping("/article/sale/update")
     public String updateArticle(ArticleDTO articleDTO) {
         articleService.update(articleDTO);
-        logger.info("start updating article" + articleDTO.getContent() + "for user"
-                + articleDTO.getUserDTO().getName());
+        logger.info("start updating article" + articleDTO.getContent());
         return REDIRECT_UPDATE_ARTICLE_SALE_URL + articleDTO.getId();
     }
 
