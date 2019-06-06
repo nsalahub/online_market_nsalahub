@@ -38,7 +38,7 @@ public class OrderController {
         this.userService = userService;
     }
 
-    @GetMapping("/orders")
+    @GetMapping("/orders/sale")
     public String showOrders(@RequestParam(defaultValue = "1", value = "currentPage")
                                      Integer page, Model model) {
         int valueOfPages = orderService.getNumberOfPages();
@@ -46,19 +46,19 @@ public class OrderController {
         List<OrderDTO> orderDTOList = orderService.getByPageNumber(page);
         model.addAttribute("orders", orderDTOList);
         logger.info("stat showing orders");
-        return "orders";
+        return "orderssale";
     }
 
-    @GetMapping("/order/more")
+    @GetMapping("/orders/sale/more")
     public String showThisArticleSale(
             @RequestParam(value = "order") Long order,
             Model model) {
         OrderDTO orderDTO = orderService.getById(order);
         model.addAttribute("order", orderDTO);
-        return "showorder";
+        return "showordersale";
     }
 
-    @PostMapping("/order/update")
+    @PostMapping("/orders/sale/update")
     public String updateItem(
             UpdateOrderDTO updateOrderDTO) {
         orderService.update(updateOrderDTO);
@@ -76,6 +76,6 @@ public class OrderController {
         List<OrderDTO> orderDTOList = orderService.getByPageNumberByUserId(currentPage, userDTO.getId());
         model.addAttribute("orders", orderDTOList);
         logger.info("stat showing orders");
-        return "showorderscustomer";
+        return "orderscustomer";
     }
 }

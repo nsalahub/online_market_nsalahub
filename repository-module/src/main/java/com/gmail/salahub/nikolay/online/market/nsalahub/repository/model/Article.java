@@ -35,7 +35,6 @@ public class Article {
     @Column(name = "a_id")
     private Long id;
     @Column(name = "a_date_created")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column(name = "a_title")
     private String title;

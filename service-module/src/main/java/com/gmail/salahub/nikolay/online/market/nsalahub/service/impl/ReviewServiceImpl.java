@@ -7,7 +7,6 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.ReviewService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ReviewConverter;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

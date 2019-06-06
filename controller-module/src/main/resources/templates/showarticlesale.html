@@ -5,9 +5,9 @@
     <title>article</title>
 </head>
 <body>
-<div th:replace="fragments/headercustomer :: header"></div>
+<div th:replace="fragments/headersale :: header"></div>
 
-<a th:href="@{/public/article/customer}"> Go Back </a>
+<a th:href="@{/public/article/sale}"> Go Back </a>
 
 <form action="#" th:action="@{/public/article/sale/update}" th:object="${article}" method="post">
     <input hidden value="#" th:attr="value=${article.id}" th:name="id">

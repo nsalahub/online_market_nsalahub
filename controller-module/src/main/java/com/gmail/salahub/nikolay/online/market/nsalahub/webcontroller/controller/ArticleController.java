@@ -3,16 +3,22 @@ package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controlle
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.ArticleService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.CommentService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.CommentDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.UserPrincipal;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleCreateDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.validator.ArticleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,9 +37,13 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final CommentService commentService;
+    private final ArticleValidator articleValidator;
 
     @Autowired
-    private ArticleController(ArticleService articleService, CommentService commentService) {
+    private ArticleController(ArticleService articleService,
+                              CommentService commentService,
+                              ArticleValidator articleValidator) {
+        this.articleValidator = articleValidator;
         this.commentService = commentService;
         this.articleService = articleService;
     }
@@ -78,9 +88,17 @@ public class ArticleController {
     }
 
     @PostMapping("/article/sale/new")
-    public String saveNewArticle(ArticleCreateDTO articleCreateDTO) throws ParseException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        articleCreateDTO.setUsername(authentication.getName());
+    public String saveNewArticle(
+            @ModelAttribute(value = "article") ArticleCreateDTO articleCreateDTO,
+                                 BindingResult bindingResult,
+                                 Model model) throws ParseException {
+        articleValidator.validate(articleCreateDTO, bindingResult);
+        if (bindingResult.hasErrors()){
+            model.addAttribute("article", articleCreateDTO);
+            return "addarticlepage";
+        }
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        articleCreateDTO.setUsername(((UserPrincipal) userDetails).getUsername());
         articleService.create(articleCreateDTO);
         logger.info("start saving " + articleCreateDTO.getContent() + " content"
                 + articleCreateDTO.getUsername());

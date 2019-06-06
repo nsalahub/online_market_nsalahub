@@ -7,14 +7,11 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Item;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Order;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Status;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.ItemService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.OrderService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ItemConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.OrderConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ItemDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.PurchaseDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.order.OrderDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.order.UpdateOrderDTO;
@@ -86,7 +83,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderDTO getById(Long id) {
         Order order = orderRepository.findById(id);
-        UserDTO userWithoutProfile = userService.getById(id);
+        UserDTO userWithoutProfile = userService.getById(order.getUser().getId());
         UserDTO resultUserDTO = userService.getByUsername(userWithoutProfile.getEmail());
         OrderDTO orderDTO = orderConverter.toDTO(order);
         orderDTO.setUserDTO(resultUserDTO);
@@ -104,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void create(PurchaseDTO purchaseDTO) {
-        Item item= itemRepository.findById(Long.valueOf(purchaseDTO.getId()));
+        Item item = itemRepository.findById(Long.valueOf(purchaseDTO.getId()));
         Order order = new Order();
         User user = userRepository.findById(purchaseDTO.getUserDTO().getId());
         order.setUser(user);
@@ -134,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getByPageNumberByUserId(Integer page, Long id) {
         List<OrderDTO> userDTOS;
         List<Order> users = orderRepository.findAllByUserId(pageService
-                .getLimitValue(LIMIT_ORDER_VALUE, page), LIMIT_ORDER_VALUE , id);
+                .getLimitValue(LIMIT_ORDER_VALUE, page), LIMIT_ORDER_VALUE, id);
         userDTOS = users.stream()
                 .map(orderConverter::toDTO)
                 .collect(Collectors.toList());

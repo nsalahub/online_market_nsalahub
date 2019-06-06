@@ -11,4 +11,8 @@ public interface UserRepository extends GenericRepository<Long, User> {
     void deleteByIds(List<Long> ids);
 
     User findByEmail(String email);
+
+    List<User> findAllWhereDeletedFalse(Integer limitValue, Integer limitUserValue);
+
+    Integer getCountOfEntitiesWhereDeletedFalse();
 }

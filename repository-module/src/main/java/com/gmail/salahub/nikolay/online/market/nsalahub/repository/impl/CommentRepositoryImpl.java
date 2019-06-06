@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 import java.util.List;
 
-
 @Repository
 public class CommentRepositoryImpl extends GenericRepositoryImpl<Long, Comment> implements CommentRepository {
 

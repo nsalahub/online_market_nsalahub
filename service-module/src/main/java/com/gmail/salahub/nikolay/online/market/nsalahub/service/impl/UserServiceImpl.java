@@ -10,8 +10,8 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.service.PageService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.RandomService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.constant.ServiceConstant;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.ProfileConverter;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.converter.UserConverter;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.exception.NoResultUserServiceException;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UpdateUserDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,8 @@ import static com.gmail.salahub.nikolay.online.market.nsalahub.repository.consta
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
+    private static final String NO_RESULT_SERVICE_EXCEPTION = "User with this email no exist in database!";
+
     private final UserConverter userConverter;
     private final UserRepository userRepository;
     private final RandomService randomService;
@@ -35,7 +37,6 @@ public class UserServiceImpl implements UserService {
     private final PageService pageService;
     private final RoleRepository roleRepository;
     private final UserConverter userProfileConverter;
-    private final ProfileConverter profileUpdateConverter;
     private final EmailService emailService;
 
     @Autowired
@@ -46,10 +47,8 @@ public class UserServiceImpl implements UserService {
                            PageService pageService,
                            RoleRepository roleRepository,
                            @Qualifier("userProfileConverter") UserConverter userProfileConverter,
-                           @Qualifier("profileUpdateConverter") ProfileConverter profileUpdateConverter,
                            @Qualifier("emailService") EmailService emailService) {
         this.emailService = emailService;
-        this.profileUpdateConverter = profileUpdateConverter;
         this.roleRepository = roleRepository;
         this.userConverter = userConverter;
         this.userRepository = userRepository;
@@ -62,15 +61,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO getByUsername(String email) {
-        return userProfileConverter.toDTO(userRepository
-                .findByEmail(email));
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return userProfileConverter.toDTO(user);
+        } else {
+            throw new NoResultUserServiceException(NO_RESULT_SERVICE_EXCEPTION + email);
+        }
     }
 
     @Override
     @Transactional
     public List<UserDTO> getByPageNumber(int pageNumber) {
         List<UserDTO> userDTOS;
-        List<User> users = userRepository.findAll(pageService
+        List<User> users = userRepository.findAllWhereDeletedFalse(pageService
                 .getLimitValue(LIMIT_USER_VALUE, pageNumber), LIMIT_USER_VALUE);
         userDTOS = users.stream()
                 .map(userConverter::toDTO)
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public int getNumberOfPages() {
-        Integer valueOfUsers = userRepository.getCountOfEntities();
+        Integer valueOfUsers = userRepository.getCountOfEntitiesWhereDeletedFalse();
         Integer valueOfPages = pageService.getValueOfPages(valueOfUsers, LIMIT_USER_VALUE);
         return valueOfPages;
     }

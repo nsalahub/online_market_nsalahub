@@ -20,6 +20,7 @@ public class ControllerConstant {
     public static final String REDIRECT_UPDATE_ARTICLE_SALE_URL = "redirect:/public/article/sale/more?article=";
     public static final String REDIRECT_ITEMS_SALE_URL = "redirect:/public/items/sale";
     public static final String REDIRECT_ITEMS_CUSTOMER_URL = "redirect:/public/items/customer";
-    public static final String REDIRECT_ORDERS_URL = "redirect:/public/order/more?order=";
+    public static final String REDIRECT_ORDERS_URL = "redirect:/public/orders/sale/more?order=";
     public static final String REDIRECT_ARTICLES_CUSTOMER_USER_URL = "redirect:/public/article/customer";
+    public static final String REDIRECT_ADD_USER_URL = "redirect:/private/user/new";
 }

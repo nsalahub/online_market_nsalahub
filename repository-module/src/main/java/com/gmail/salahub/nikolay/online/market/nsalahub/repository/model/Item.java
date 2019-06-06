@@ -1,7 +1,6 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model;
 
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,6 @@ import java.util.Objects;
         "UPDATE Item " +
                 "SET i_deleted = 1 " +
                 "WHERE i_id = ?")
-@Where(clause = "i_deleted = 0")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

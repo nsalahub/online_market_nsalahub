@@ -1,7 +1,5 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -6,6 +6,16 @@
 </head>
 <body>
 <div th:replace="fragments/headersale :: header"></div>
+
+<h3>Upload Items</h3>
+<form enctype="multipart/form-data" method="post" th:action="@{/public/items/upload}">
+    <input  name="xml"  type="file"/>
+    <input type="submit" value="Upload items">
+</form>
+
+<div th:text="${validMessage}" th:unless="${validMessage==null}">...</div>
+
+<h3>Items</h3>
 <table>
     <thead>
     <tr class="text-center">

@@ -5,6 +5,7 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controller.testmodel.TestModel;
+import com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.validator.ReviewValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,20 +41,24 @@ public class ReviewControllerTest {
     @Mock
     private UserService userService;
 
+    @Mock
+    private ReviewValidator reviewValidator;
+
     private ReviewDTO reviewDTO = TestModel.getTestReviewDTO();
     private List<ReviewDTO> reviewDTOS = asList(reviewDTO, reviewDTO);
     private Integer numberOfPage = 0;
+    private Integer FIRST_PAGE_SELECTED = 1;
 
     @Before
     public void init() {
-        ReviewController reviewController = new ReviewController(reviewService,userService);
+        ReviewController reviewController = new ReviewController(reviewService, userService, reviewValidator);
         mockMvc = MockMvcBuilders.standaloneSetup(reviewController).build();
     }
 
     @Test
     @WithMockUser(roles = {"ADMINISTRATOR"})
     public void shouldGetReviewPageWithSomeReviews() throws Exception {
-        when(reviewService.getReviewsForShowing(1)).thenReturn(reviewDTOS);
+        when(reviewService.getReviewsForShowing(FIRST_PAGE_SELECTED)).thenReturn(reviewDTOS);
         when(reviewService.getValueOfPages()).thenReturn(numberOfPage);
         this.mockMvc.perform(get("/private/review.html"))
                 .andExpect(status().isOk())

@@ -1,4 +1,4 @@
-package com.gmail.salahub.nikolay.online.market.nsalahub.service.model;
+package com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review;
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 

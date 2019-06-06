@@ -5,9 +5,9 @@
     <title>item</title>
 </head>
 <body>
-<div th:replace="fragments/headersale :: header"></div>
+<div th:replace="fragments/headercustomer :: header"></div>
 
-<a th:href="@{/public/items/sale}"> Go Back </a>
+<a th:href="@{/public/items/customer}"> Go Back </a>
 
 <h1 th:text="${item.name}"></h1>
 <span th:text="${item.uniqueNumber}"></span>

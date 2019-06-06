@@ -2,18 +2,20 @@ package com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.controlle
 
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.ReviewService;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.UserService;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ReviewsDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewsDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.UserPrincipal;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.user.UserDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.webcontroller.validator.ReviewValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -26,10 +28,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final UserService userService;
+    private final ReviewValidator reviewValidator;
 
     @Autowired
     public ReviewController(ReviewService reviewService,
-                            UserService userService) {
+                            UserService userService,
+                            ReviewValidator reviewValidator) {
+        this.reviewValidator = reviewValidator;
         this.reviewService = reviewService;
         this.userService = userService;
     }
@@ -71,11 +76,21 @@ public class ReviewController {
     }
 
     @PostMapping("/public/review/new")
-    public String createNewReview(ReviewDTO reviewDTO) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDTO userDTO = userService.getById(((UserPrincipal)userDetails).getIdFromUserPrincipal());
-        reviewDTO.setUserDTO(userDTO);
-        reviewService.create(reviewDTO);
-        return REDIRECT_ARTICLES_CUSTOMER_USER_URL;
+    public String createNewReview(
+            @ModelAttribute(value = "review")
+                    ReviewDTO reviewDTO,
+            BindingResult bindingResult,
+            Model model) {
+        reviewValidator.validate(reviewDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("review", reviewDTO);
+            return "createreview";
+        } else {
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserDTO userDTO = userService.getById(((UserPrincipal) userDetails).getIdFromUserPrincipal());
+            reviewDTO.setUserDTO(userDTO);
+            reviewService.create(reviewDTO);
+            return REDIRECT_ARTICLES_CUSTOMER_USER_URL;
+        }
     }
 }
