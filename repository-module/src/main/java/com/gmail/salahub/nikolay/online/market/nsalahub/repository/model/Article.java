@@ -1,6 +1,5 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model;
 
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -36,7 +35,6 @@ public class Article {
     @Column(name = "a_id")
     private Long id;
     @Column(name = "a_date_created")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Column(name = "a_title")
     private String title;

@@ -1,13 +1,13 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository.model;
 
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -18,12 +18,12 @@ import java.util.Objects;
         "UPDATE Item " +
                 "SET i_deleted = 1 " +
                 "WHERE i_id = ?")
-@Where(clause = "i_deleted = 0")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "i_id")
     private Long id;
+    @OrderBy(value = "i_name desc")
     @Column(name = "i_name")
     private String name;
     @Column(name = "i_unique_number")

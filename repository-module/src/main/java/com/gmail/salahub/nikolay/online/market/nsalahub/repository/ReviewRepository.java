@@ -1,6 +1,6 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository;
 
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.review.Review;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Review;
 
 import java.util.List;
 

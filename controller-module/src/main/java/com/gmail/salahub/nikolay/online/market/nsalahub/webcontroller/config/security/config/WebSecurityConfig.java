@@ -56,12 +56,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("private/user", "private/review", "/login")
-                .hasRole(ADMINISTRATOR_ROLE_STRING_VALUE)
-                .antMatchers("public/article/customer", "public/profile", "/login")
-                .hasRole(CUSTOMER_ROLE_STRING_VALUE)
-                .antMatchers("public/article/sale","public/things")
-                .hasRole(SALE_USER_ROLE_VALUE)
+                .antMatchers("/private/user/**", "/private/review/**")
+                .hasAuthority(ADMINISTRATOR_ROLE_STRING_VALUE)
+                .antMatchers("/public/article/customer/**", "/public/profile/**"
+                        , "/public/orders/customer/**", "/items/customer/**", "/public/review/**")
+                .hasAuthority(CUSTOMER_ROLE_STRING_VALUE)
+                .antMatchers("/public/article/sale/**", "/public/items/sale/**", "/public/orders/sale/*")
+                .hasAuthority(SALE_USER_ROLE_VALUE)
                 .and()
                 .formLogin()
                 .loginPage("/login")

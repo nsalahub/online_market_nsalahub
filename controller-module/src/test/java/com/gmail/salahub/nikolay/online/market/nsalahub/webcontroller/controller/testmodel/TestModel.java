@@ -5,12 +5,12 @@ import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Comment
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Item;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Profile;
 import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Role;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.review.Review;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.user.User;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Review;
+import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.User;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.CommentDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ItemDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ProfileDTO;
-import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.ReviewsDTO;
+import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.review.ReviewsDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.RoleDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleCreateDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleDTO;

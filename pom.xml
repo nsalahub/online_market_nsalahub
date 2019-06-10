@@ -25,6 +25,7 @@
         <bootstrap.version>3.3.7</bootstrap.version>
         <liquibase.version>3.4.1</liquibase.version>
         <spring.boot.email.version>2.0.1.RELEASE</spring.boot.email.version>
+        <commons.file.upload.version>1.3.1</commons.file.upload.version>
     </properties>
 
     <dependencies>
@@ -37,6 +38,12 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons.file.upload.version}</version>
         </dependency>
 
         <dependency>

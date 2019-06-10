@@ -1,7 +1,5 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.service;
 
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.GenericRepository;
-import com.gmail.salahub.nikolay.online.market.nsalahub.repository.model.Article;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleCreateDTO;
 import com.gmail.salahub.nikolay.online.market.nsalahub.service.model.article.ArticleDTO;
 

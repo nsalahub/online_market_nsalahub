@@ -8,6 +8,7 @@ public class ItemDTO {
     private String name;
     private String uniqueNumber;
     private BigDecimal price;
+    private String text;
     private boolean isDeleted;
     private String description;
 
@@ -49,6 +50,14 @@ public class ItemDTO {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public boolean isDeleted() {

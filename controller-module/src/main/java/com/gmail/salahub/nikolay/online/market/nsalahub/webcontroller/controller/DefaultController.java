@@ -13,6 +13,6 @@ public class DefaultController {
 
     @GetMapping("/403")
     public String showErrorPage(){
-        return "403";
+        return "/error/403";
     }
 }

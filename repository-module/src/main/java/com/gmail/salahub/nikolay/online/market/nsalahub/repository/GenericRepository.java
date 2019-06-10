@@ -1,6 +1,5 @@
 package com.gmail.salahub.nikolay.online.market.nsalahub.repository;
 
-import java.sql.Connection;
 import java.util.List;
 
 public interface GenericRepository<I, T> {
